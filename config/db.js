@@ -8,6 +8,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.APP_DB_HOST,
     dialect: process.env.APP_DB_DIALECT,
+    logging: false,
   }
 );
 
@@ -19,3 +20,5 @@ sequelize
   .catch((error) => {
     console.error('Unable to connect to the database: ', error);
   });
+
+module.exports = sequelize;
