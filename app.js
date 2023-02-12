@@ -1,59 +1,15 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const UserRoute = require('./routes/Users');
 require('dotenv').config();
 require('./config/db');
-
-const User = require('./models/User.model');
 
 app.use(express.json());
 app.use(cors());
 
-app.get('/getAllUsers', (req, res) => {
-  User.findAll()
-    .then((response) => {
-      res.json({ data: response });
-    })
-    .catch((err) => {
-      res.json({ err: err });
-    });
-});
-app.post('/createUser', (req, res) => {
-  const { name, favoriteColor, age, cash } = req.body;
-  User.create({
-    name: name,
-    favoriteColor: favoriteColor,
-    age: age,
-    cash: cash,
-  })
-    .then(() => res.status(201).send('User Created Succesfully'))
-    .catch((error) => {
-      console.log(error);
-      res.status(400).send(error);
-    });
-});
-app.put('/updateUser', (req, res) => {
-  const { name, age, cash } = req.body;
+app.use('/users', UserRoute);
 
-  User.update({ age: age, cash: cash }, { where: { name: name } })
-    .then(() => res.status(201).send('User Updated Succesfully'))
-    .catch((error) => {
-      console.log(error);
-      res.status(400).send(error);
-    });
-});
-app.delete('/deleteUser', (req, res) => {
-  const { name } = req.body;
-  User.destroy({
-    where: { name: name },
-  })
-    .then(() => {
-      res.json({ info: `User ${name} deleted` });
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
-});
 app.get('/', (req, res) => {
   res.status(200).json({ info: 'Congratulations ! You are here.' });
 });
