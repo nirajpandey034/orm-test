@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
 const User = sequelize.define('User', {
@@ -9,8 +9,8 @@ const User = sequelize.define('User', {
   },
   age: DataTypes.INTEGER,
   cash: DataTypes.INTEGER,
-});  // defining User schema
+}); // defining User schema
 
-sequelize.sync();  // executing the schema definition
+sequelize.sync(); // executing the schema definition
 
 module.exports = User;

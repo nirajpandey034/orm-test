@@ -23,6 +23,16 @@ app.post('/createUser', (req, res) => {
       res.status(400).send(error);
     });
 });
+app.put('/updateUser', (req, res) => {
+  const { name, age, cash } = req.body;
+
+  User.update({ age: age, cash: cash }, { where: { name: name } })
+    .then(() => res.status(201).send('User Updated Succesfully'))
+    .catch((error) => {
+      console.log(error);
+      res.status(400).send(error);
+    });
+});
 app.get('/', (req, res) => {
   res.status(200).json({ info: 'Congratulations ! You are here.' });
 });
