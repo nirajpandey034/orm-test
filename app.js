@@ -9,6 +9,15 @@ const User = require('./models/User.model');
 app.use(express.json());
 app.use(cors());
 
+app.get('/getAllUsers', (req, res) => {
+  User.findAll()
+    .then((response) => {
+      res.json({ data: response });
+    })
+    .catch((err) => {
+      res.json({ err: err });
+    });
+});
 app.post('/createUser', (req, res) => {
   const { name, favoriteColor, age, cash } = req.body;
   User.create({
@@ -31,6 +40,18 @@ app.put('/updateUser', (req, res) => {
     .catch((error) => {
       console.log(error);
       res.status(400).send(error);
+    });
+});
+app.delete('/deleteUser', (req, res) => {
+  const { name } = req.body;
+  User.destroy({
+    where: { name: name },
+  })
+    .then(() => {
+      res.json({ info: `User ${name} deleted` });
+    })
+    .catch((err) => {
+      res.status(400).send(err);
     });
 });
 app.get('/', (req, res) => {
