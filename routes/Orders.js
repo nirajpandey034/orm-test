@@ -14,4 +14,21 @@ router.get('/getAllOrders', (req, res) => {
     });
 });
 
+router.post('/createOrder', (req, res) => {
+  const { userID, productName, price, quantity, address } = req.body;
+
+  Orders.create({
+    userID: userID,
+    productName: productName,
+    price: price,
+    quantity: quantity,
+    address: address,
+  })
+    .then((response) => {
+      res.json({ info: `#${response.id} Order Created Successfully` });
+    })
+    .catch((error) =>
+      res.json({ error: 'Order Creation Failed' + error.message })
+    );
+});
 module.exports = router;
